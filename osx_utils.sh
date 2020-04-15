@@ -8,7 +8,6 @@ source $MULTIBUILD_DIR/common_utils.sh
 
 MACPYTHON_URL=https://www.python.org/ftp/python
 MACPYTHON_PY_PREFIX=/Library/Frameworks/Python.framework/Versions
-GET_PIP_URL=https://bootstrap.pypa.io/get-pip.py
 WORKING_SDIR=working
 
 # As of 10 Mar 2020 - latest Python of each version with binary download

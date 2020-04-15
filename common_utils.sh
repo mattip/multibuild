@@ -14,7 +14,6 @@ set -e
 MULTIBUILD_DIR=$(dirname "${BASH_SOURCE[0]}")
 DOWNLOADS_SDIR=downloads
 PYPY_URL=https://bitbucket.org/pypy/pypy/downloads
-GET_PIP_URL=https://bootstrap.pypa.io/get-pip.py
 
 # Unicode width, default 32. Used here and in travis_linux_steps.sh
 # In docker_build_wrap.sh it is passed in when calling "docker run"
@@ -536,16 +535,13 @@ retry () {
 function install_pip {
     # Generic install pip
     # Gets needed version from version implied by $PYTHON_EXE
-    # Installs pip into python given by $PYTHON_EXE
+    # Installs pip into python given by $PYTHON_EXE via ensurepip
     # Assumes pip will be installed into same directory as $PYTHON_EXE
     check_python
-    mkdir -p $DOWNLOADS_SDIR
-    local py_mm=`get_py_mm`
-    local get_pip_path=$DOWNLOADS_SDIR/get-pip.py
-    curl $GET_PIP_URL > $get_pip_path
+    
     # Travis VMS now install pip for system python by default - force install
     # even if installed already.
-    $PYTHON_EXE $get_pip_path --ignore-installed $pip_args
+    $PYTHON_EXE -m ensurepip
     PIP_CMD="$PYTHON_EXE -m pip"
     if [ "$USER" != "root" ]; then
         # inside a docker, there is no sudo but the user is already root
